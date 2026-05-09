@@ -29,7 +29,7 @@ RUN bundle install --jobs 4 --retry 3
 COPY . .
 
 # Precompile bootsnap cache for faster boot times
-RUN bundle exec bootsnap precompile --gemfile app/
+RUN bundle exec bootsnap precompile --gemfile
 
 # Precompile assets
 RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile
