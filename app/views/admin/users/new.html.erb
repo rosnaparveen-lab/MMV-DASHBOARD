@@ -1,0 +1,45 @@
+<div class="page-wrapper">
+  <div class="page-header">
+    <h1 class="page-title">Create New User</h1>
+  </div>
+
+  <div class="form-panel">
+    <%= form_with(model: [:admin, @user], local: true) do |f| %>
+      <% if @user.errors.any? %>
+        <div class="alert-box">
+          <p class="font-semibold">Please fix the following issues:</p>
+          <ul>
+            <% @user.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="form-group">
+        <label>Email</label>
+        <%= f.email_field :email, required: true %>
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <%= f.password_field :password, required: true %>
+      </div>
+
+      <div class="form-group">
+        <label>Password confirmation</label>
+        <%= f.password_field :password_confirmation, required: true %>
+      </div>
+
+      <div class="form-group">
+        <label>Role</label>
+        <%= f.select :role, [["User", "user"], ["Admin", "admin"]], {}, required: true %>
+      </div>
+
+      <div class="form-actions">
+        <%= f.submit "Create User", class: "btn-primary" %>
+        <%= link_to "Cancel", admin_users_path, class: "btn-secondary" %>
+      </div>
+    <% end %>
+  </div>
+</div>

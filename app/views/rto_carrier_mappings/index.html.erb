@@ -1,0 +1,31 @@
+<h1>RTO Carrier Mappings</h1>
+
+<div style="margin: 15px 0;">
+  <%= form_tag rto_carrier_mappings_path, method: :get do %>
+    Filter by Insurance: 
+    <%= select_tag :insurance_code, 
+                   options_for_select(@insurances, params[:insurance_code]), 
+                   prompt: "All Insurances", 
+                   onchange: "this.form.submit()" %>
+  <% end %>
+</div>
+
+<table border="1" cellpadding="8" style="border-collapse: collapse; width: 100%;">
+  <tr>
+    <th>Insurance Code</th>
+    <th>RTO Code</th>
+    <th>Additional Info</th>
+  </tr>
+  <% @carrier_mappings.each do |cm| %>
+    <tr>
+      <td><%= cm.insurance_code %></td>
+      <td><%= cm.code %></td>
+      <td><%= cm.additional_info %></td>
+    </tr>
+  <% end %>
+</table>
+<div style="margin-top: 20px;">
+  <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
+</div>
+
+<%= link_to "Download CSV", export_rto_carrier_mappings_path(insurance_code: params[:insurance_code]), class: "btn btn-primary" %>

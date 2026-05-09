@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MMV Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%= csrf_meta_tags %>  
+  <style>
+    body { 
+      font-family: 'Poppins', system-ui, sans-serif; 
+      margin: 0; 
+      padding: 0; 
+    }
+    .top-nav {
+      background: #0f172a;
+      color: white;
+      min-height: 76px;
+      padding: 18px 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      box-shadow: 0 3px 18px rgba(15, 23, 42, 0.18);
+    }
+    .top-nav-left {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .top-nav-brand {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: none;
+      color: #ffffff;
+    }
+    .top-nav-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .nav-link {
+      color: rgba(255, 255, 255, 0.85);
+      text-decoration: none;
+      padding: 10px 16px;
+      border-bottom: 3px solid transparent;
+      font-size: 0.95rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
+      position: relative;
+    }
+    .nav-link:hover,
+    .nav-link:focus {
+      color: #ffffff;
+      outline: none;
+    }
+    .nav-link.active {
+      color: #ffffff;
+      border-bottom-color: #2563eb;
+    }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .nav-actions span {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.85);
+    }
+    .user-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+    .nav-button {
+      color: rgba(255,255,255,0.9);
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 8px;
+      padding: 9px 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .nav-button:hover,
+    .nav-button:focus {
+      background: rgba(220, 38, 38, 0.1);
+      border-color: rgba(220, 38, 38, 0.5);
+      color: #fecaca;
+      outline: none;
+    }
+    .nav-button:active {
+      background: rgba(255,255,255,0.2);
+    }
+
+    .page-wrapper {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 32px 26px 42px;
+    }
+    .page-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+    .page-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0;
+      color: #111827;
+    }
+    .page-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 18px;
+      background: #0f172a;
+      color: white;
+      border-radius: 14px;
+      border: 1px solid rgba(15,23,42,0.15);
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.18s ease, transform 0.18s ease;
+      cursor: pointer;
+    }
+    .btn-primary:hover,
+    .btn-primary:focus {
+      background: #111827;
+      transform: translateY(-1px);
+      outline: none;
+    }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 18px;
+      background: #ffffff;
+      color: #374151;
+      border-radius: 14px;
+      border: 1px solid #d1d5db;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.18s ease, border-color 0.18s ease;
+      cursor: pointer;
+    }
+    .btn-secondary:hover,
+    .btn-secondary:focus {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+      outline: none;
+    }
+    .card {
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 16px 44px rgba(15, 23, 42, 0.08);
+      overflow: hidden;
+    }
+    .table-card {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 100%;
+    }
+    .table-card th,
+    .table-card td {
+      padding: 18px 20px;
+      text-align: left;
+      vertical-align: middle;
+    }
+    .table-card thead {
+      background: #f8fafc;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .table-card tbody tr:hover {
+      background: #f9fafb;
+    }
+    .table-badge {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 9999px;
+      padding: 7px 14px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .badge-admin {
+      background: #dcfce7;
+      color: #166534;
+    }
+    .badge-user {
+      background: #e5e7eb;
+      color: #374151;
+    }
+    .form-panel {
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 16px 44px rgba(15, 23, 42, 0.08);
+      padding: 34px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .form-group {
+      margin-bottom: 24px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+      color: #374151;
+      font-weight: 600;
+    }
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      border: 1px solid #d1d5db;
+      border-radius: 14px;
+      padding: 14px 16px;
+      font-size: 1rem;
+      color: #111827;
+      background: #ffffff;
+    }
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.18);
+      border-color: #2563eb;
+    }
+    .form-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 10px;
+    }
+    .alert-box {
+      border-radius: 18px;
+      border: 1px solid #fee2e2;
+      background: #fff1f2;
+      color: #991b1b;
+      padding: 18px 20px;
+      margin-bottom: 24px;
+    }
+    .alert-box ul {
+      margin: 0;
+      padding-left: 20px;
+      list-style-type: disc;
+    }
+  </style>
+</head>
+<body>
+
+  <% if user_signed_in? %>
+    <nav class="top-nav">
+      <div class="top-nav-left">
+        <div class="top-nav-brand">Riskcovry</div>
+        <div class="top-nav-links">
+          <% if current_user.admin? %>
+            <%= link_to "Dashboard", root_path, class: ["nav-link", ("active" if current_page?(root_path))].compact.join(" ") %>
+            <%= link_to "User Management", admin_users_path, class: ["nav-link", ("active" if current_page?(admin_users_path))].compact.join(" ") %>
+            <%= link_to "Download History", admin_download_logs_path, class: ["nav-link", ("active" if current_page?(admin_download_logs_path))].compact.join(" ") %>
+          <% else %>
+            <%= link_to "Dashboard", root_path, class: ["nav-link", ("active" if current_page?(root_path))].compact.join(" ") %>
+          <% end %>
+          <%= link_to "Profile", profile_path, class: ["nav-link", ("active" if current_page?(profile_path))].compact.join(" ") %>
+        </div>
+      </div>
+      <div class="nav-actions">
+        <span>
+          <div class="user-avatar"><%= current_user.email[0].upcase %></div>
+          <%= current_user.email %>
+        </span>
+        <%= form_tag destroy_user_session_path, method: :delete, data: { turbo: false } do %>
+          <%= button_tag "Logout", type: "submit", data: { confirm: "Are you sure you want to logout?" }, class: "nav-button" %>
+        <% end %>
+      </div>
+    </nav>
+  <% end %>
+
+
+
+  <div style="padding: 0;">
+    <%= yield %>
+  </div>
+
+</body>
+</html>

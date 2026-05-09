@@ -1,0 +1,32 @@
+<div class="page-wrapper">
+  <div class="page-header">
+    <h1 class="page-title">Download History</h1>
+  </div>
+
+  <div class="card">
+    <table class="table-card">
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Downloaded Item</th>
+          <th>Downloaded At</th>
+          <th>Time Taken</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @logs.each do |log| %>
+          <tr>
+            <td><%= log.user&.email || "Unknown" %></td>
+            <td><%= log.downloaded_item || log.downloaded_filename || "Unknown" %></td>
+            <td><%= log.created_at.strftime("%d %b %Y %I:%M %p") %></td>
+            <td><%= log.duration_seconds.present? ? "#{log.duration_seconds} sec" : "Pending" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <% if @logs.empty? %>
+    <p class="text-muted">No downloads recorded yet.</p>
+  <% end %>
+</div>

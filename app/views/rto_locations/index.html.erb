@@ -1,0 +1,21 @@
+<h1>RTO Locations</h1>
+
+<table border="1" cellpadding="8" style="border-collapse: collapse; width: 100%;">
+  <tr>
+    <th>RTO Code</th>
+    <th>Insurance Code</th>
+    <th>Additional Info</th>
+  </tr>
+  <% @rto_locations.each do |rto| %>
+    <tr>
+      <td><%= rto.code %></td>
+      <td><%= rto.insurance_code %></td>
+      <td><%= rto.additional_info %></td>
+    </tr>
+  <% end %>
+</table>
+<div style="margin-top: 20px;">
+  <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
+</div>
+
+<%= link_to "Download CSV", export_rto_locations_path, class: "btn btn-primary" %>

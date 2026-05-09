@@ -1,0 +1,29 @@
+default: &default
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+
+# Development & Test - Always SQLite
+development:
+  <<: *default
+  adapter: sqlite3
+  database: storage/development.sqlite3
+
+test:
+  <<: *default
+  adapter: sqlite3
+  database: storage/test.sqlite3
+
+# Production - Use MySQL if credentials provided, else fallback to SQLite
+production:
+  <<: *default
+  adapter: <%= ENV["DATABASE_HOST"].present? ? "mysql2" : "sqlite3" %>
+  <% if ENV["DATABASE_HOST"].present? %>
+  encoding: utf8mb4
+  host: <%= ENV["DATABASE_HOST"] %>
+  port: <%= ENV["DATABASE_PORT"] || 3306 %>
+  database: <%= ENV["DATABASE_NAME"] %>
+  username: <%= ENV["DATABASE_USER"] %>
+  password: <%= ENV["DATABASE_PASSWORD"] %>
+  <% else %>
+  database: storage/production.sqlite3
+  <% end %>

@@ -1,0 +1,40 @@
+<div class="page-wrapper">
+  <div class="page-header">
+    <h1 class="page-title">Manage Users</h1>
+    <div class="page-actions">
+      <%= link_to "Create User", new_admin_user_path, class: "btn-primary" %>
+    </div>
+  </div>
+
+  <div class="card">
+    <table class="table-card">
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Created At</th>
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+          <tr>
+            <td><%= user.email %></td>
+            <td>
+              <span class="table-badge <%= user.admin? ? 'badge-admin' : 'badge-user' %>">
+                <%= user.role&.capitalize || "User" %>
+              </span>
+            </td>
+            <td><%= user.created_at.strftime("%d %b %Y") %></td>
+            <td style="text-align:center;">
+              <%= link_to "Edit", edit_admin_user_path(user), class: "btn-secondary" %>
+              <% if user != current_user %>
+                <%= button_to "Delete", admin_user_path(user), method: :delete, data: { confirm: "Delete #{user.email}?" }, class: "btn-secondary", form: { style: "display:inline-block; margin-left: 10px;" } %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

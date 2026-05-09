@@ -1,0 +1,19 @@
+<div class="page-wrapper">
+  <div class="page-header">
+    <h1 class="page-title">Edit User: <%= @user.email %></h1>
+  </div>
+
+  <div class="form-panel">
+    <%= form_with(model: [:admin, @user], method: :patch, local: true) do |f| %>
+      <div class="form-group">
+        <label>Role</label>
+        <%= f.select :role, [["User", "user"], ["Admin", "admin"]], {}, required: true %>
+      </div>
+
+      <div class="form-actions">
+        <%= f.submit "Update User", class: "btn-primary" %>
+        <%= link_to "Cancel", admin_users_path, class: "btn-secondary" %>
+      </div>
+    <% end %>
+  </div>
+</div>

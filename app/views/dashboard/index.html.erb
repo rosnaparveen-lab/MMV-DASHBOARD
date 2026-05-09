@@ -1,0 +1,297 @@
+<style>
+  body {
+    background: #f8fafc;
+  }
+
+  .dashboard-page {
+    padding: 32px 16px 48px;
+  }
+
+  .dashboard-header {
+    max-width: 1200px;
+    margin: 0 auto 32px;
+  }
+
+  .dashboard-title {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #0f172a;
+  }
+
+  .dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+
+  .dashboard-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 24px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    min-height: 140px;
+    justify-content: flex-start;
+  }
+
+  .dashboard-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.12);
+    border-color: #2563eb;
+  }
+
+  .dashboard-card-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 24px;
+  }
+
+  .dashboard-card-icon.blue {
+    background: #dbeafe;
+    color: #1e40af;
+  }
+
+  .dashboard-card-icon.teal {
+    background: #ccfbf1;
+    color: #0f766e;
+  }
+
+  .dashboard-card-icon.purple {
+    background: #e0e7ff;
+    color: #4338ca;
+  }
+
+  .dashboard-card-icon.orange {
+    background: #fed7aa;
+    color: #854d0e;
+  }
+
+  .dashboard-card-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .dashboard-card-title {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #0f172a;
+  }
+
+  .dashboard-card-desc {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #64748b;
+  }
+
+  .recent-downloads-section {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-title {
+    margin: 0 0 16px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0f172a;
+  }
+
+  .recent-downloads-table {
+    width: 100%;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+  }
+
+  .recent-downloads-table table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .recent-downloads-table th {
+    padding: 14px 16px;
+    background: #f1f5f9;
+    color: #334155;
+    font-weight: 700;
+    text-align: left;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .recent-downloads-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 0.95rem;
+    color: #334155;
+  }
+
+  .recent-downloads-table tbody tr:hover {
+    background: #f8fafc;
+  }
+
+  .recent-downloads-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .download-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .download-status.completed {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  .download-status.failed {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+
+  .redownload-button {
+    padding: 6px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #334155;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+  }
+
+  .redownload-button:hover {
+    background: #f1f5f9;
+    border-color: #94a3b8;
+  }
+
+  .empty-state-downloads {
+    padding: 32px;
+    text-align: center;
+    color: #64748b;
+  }
+
+  @media (max-width: 768px) {
+    .dashboard-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .dashboard-title {
+      font-size: 1.5rem;
+    }
+
+    .recent-downloads-table {
+      overflow-x: auto;
+    }
+  }
+</style>
+
+<div class="dashboard-page">
+  <div class="dashboard-header">
+    <h1 class="dashboard-title">Welcome back, <%= current_user.email.split('@')[0].capitalize %></h1>
+  </div>
+
+  <div class="dashboard-container">
+    <div class="dashboard-grid">
+      <a href="/master_vehicle_database" class="dashboard-card">
+        <div class="dashboard-card-icon teal">🚗</div>
+        <div class="dashboard-card-text">
+          <h3 class="dashboard-card-title">Master Vehicle Database</h3>
+          <p class="dashboard-card-desc">list of vehicles and details</p>
+        </div>
+      </a>
+
+      <a href="/vehicle_carrier_mapping" class="dashboard-card">
+        <div class="dashboard-card-icon blue">📋</div>
+        <div class="dashboard-card-text">
+          <h3 class="dashboard-card-title">Vehicle Carrier Mapping</h3>
+          <p class="dashboard-card-desc">Vehicle models mapped to IC</p>
+        </div>
+      </a>
+
+      <a href="/rto_locations" class="dashboard-card">
+        <div class="dashboard-card-icon orange">📍</div>
+        <div class="dashboard-card-text">
+          <h3 class="dashboard-card-title">RTO Location</h3>
+          <p class="dashboard-card-desc">list of RTO locations</p>
+        </div>
+      </a>
+
+      <a href="/rto_carrier_mappings" class="dashboard-card">
+        <div class="dashboard-card-icon purple">🏢</div>
+        <div class="dashboard-card-text">
+          <h3 class="dashboard-card-title">RTO Carrier Mapping</h3>
+          <p class="dashboard-card-desc">TO mapped to IC</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="recent-downloads-section">
+      <h2 class="section-title">Recent Downloads</h2>
+      <% if @recent_downloads.present? %>
+        <div class="recent-downloads-table">
+          <table>
+            <thead>
+              <tr>
+                <th>File Name</th>
+                <th>Date & Time</th>
+                <th>Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @recent_downloads.each do |download| %>
+                <tr>
+                  <td><%= download.downloaded_filename %></td>
+                  <td><%= download.created_at.strftime('%-d %b %Y, %-I:%M %p') %></td>
+                  <td>
+                    <span class="download-status completed">
+                      <span>✓</span>
+                      Completed
+                    </span>
+                  </td>
+                  <td>
+                    <button class="redownload-button" onclick="alert('Re-download: <%= download.downloaded_filename %>')">↓ Re-download</button>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% else %>
+        <div class="recent-downloads-table">
+          <div class="empty-state-downloads">
+            No recent downloads. Start by exploring Vehicle Carrier Mapping, Master Vehicle Database, or other sections.
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
