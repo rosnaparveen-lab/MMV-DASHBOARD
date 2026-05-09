@@ -1,8 +1,15 @@
-#!/bin/bash -e
+#!/bin/bash
+set -e
 
-# If running the rails server then create or migrate existing database
-if [ "${1}" == "./bin/rails" ] && [ "${2}" == "server" ]; then
-  ./bin/rails db:prepare
+# Remove a potentially pre-existing server.pid for Rails.
+if [ -f /app/tmp/pids/server.pid ]; then
+  rm /app/tmp/pids/server.pid
 fi
 
-exec "${@}"
+# If running the web server, prepare the database (optional, depending on your workflow)
+# In production with an external MySQL, you might want to run migrations manually or via CI/CD,
+# but rails db:prepare is safe to run as it only migrates if needed.
+bundle exec rails db:prepare
+
+# Then exec the container's main process (what's set as CMD in the Dockerfile).
+exec "$@"

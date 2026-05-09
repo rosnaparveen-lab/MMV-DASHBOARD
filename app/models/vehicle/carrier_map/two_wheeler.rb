@@ -1,6 +1,6 @@
 module Vehicle
   module CarrierMap
-    class TwoWheeler < ApplicationRecord
+    class TwoWheeler < VehicleRecord
       self.table_name = 'carrier_map_two_wheelers'
 
       belongs_to :two_wheeler, optional: true

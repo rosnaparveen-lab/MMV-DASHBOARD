@@ -79,16 +79,12 @@ class VehicleCarrierMappingController < ApplicationController
   end
 
   def export
-    # For large data, use background job
-    if params[:insurance_code].present? || params[:vehicle_type].present?
-      # Filtered download
-      GenerateCarrierMappingCsvJob.perform_later(current_user.id, params[:insurance_code], params[:vehicle_type])
-    else
-      # All data - large, use job
-      GenerateCarrierMappingCsvJob.perform_later(current_user.id, nil, nil)
-    end
-    flash[:notice] = "CSV generation started! Download will be available soon."
-    redirect_to vehicle_carrier_mapping_index_path
+    two_wheeler = Vehicle::CarrierMap::TwoWheeler.includes(:two_wheeler)
+    @carrier_map_two_wheelers = two_wheeler.apply_filters(params).vehicle_search(params[:name])
+    
+    send_data @carrier_map_two_wheelers.carrier_csv, 
+              filename: "carrier_mapping_#{Date.today}.csv",
+              type: "text/csv"
   end
 
   private

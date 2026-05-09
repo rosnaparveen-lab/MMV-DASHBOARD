@@ -1,6 +1,6 @@
 module Vehicle
   module CarrierMap
-    class RtoLocation < ApplicationRecord
+    class RtoLocation < LocationRecord
       self.table_name = 'rto_locations'
 
       def self.to_csv

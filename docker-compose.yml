@@ -2,15 +2,17 @@ version: '3.9'
 
 services:
   web:
-    build: .
+    container_name: mmv-dashboard
+    build:
+      context: .
+      dockerfile: app/Dockerfile
+    command: bundle exec puma -C config/puma.rb
     ports:
       - "3000:3000"
     env_file:
-      - .env.production
-    depends_on:
-      - redis
-
-  redis:
-    image: redis:7-alpine
-    ports:
-      - "6379:6379"
+      - .env
+    volumes:
+      - .:/app
+      - ./log:/app/log
+      - ./tmp:/app/tmp
+      - ./public/downloads:/app/public/downloads
